@@ -19,7 +19,11 @@ describe("Expanded catalog", () => {
   });
   it("sorts actual prices while keeping unpriced items last", () => {
     const matches = filterProducts(products, "Të gjitha", "Të gjitha", "", "low");
-    expect(matches[0]?.price).toBe(25);
-    expect(matches.at(-1)?.price).toBe(null);
+    expect(matches[0]?.price).toBe(1.49);
+  });
+  it("gives every product a real price — never price on request", () => {
+    const unpriced = products.filter((p) => p.price === null);
+    expect(unpriced).toEqual([]);
+    expect(products.every((p) => typeof p.price === "number" && p.price > 0)).toBe(true);
   });
 });
