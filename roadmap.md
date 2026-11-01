@@ -18,5 +18,7 @@
 - [x] Test category sizes and verify shopping interactions on desktop and phone.
 
 # Purchase notifications
+- [ ] Add WhatsApp product enquiries with selected part and car details.
+- [ ] Add checkout collecting name, phone, address, and all basket items; verify saved orders.
 - [ ] Add order submission and owner email notifications after the sender domain is configured (blocked: sender-domain setup).
 - [x] Suggest useful next improvements for the shop.

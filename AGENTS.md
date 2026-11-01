@@ -10,6 +10,9 @@
 <!-- LOVABLE:END -->
 
 - Keep storefront product data in a browser-safe catalog module and shopping interactions in focused components; this keeps imagery, filtering, and cart views consistent.
+- Share the basket through a provider with hydration-safe session storage so checkout and the shop retain the same selections across navigation and refresh.
+- Guest checkout uses a validated server function with catalog-derived prices, idempotent order IDs, and server-only order storage; this prevents price manipulation and public access to customer details.
+- WhatsApp enquiries use normal wa.me links with encoded product and car details, requiring no messaging connector.
 - Use Embla for carousels and Radix dialogs/sheets for overlays; these provide swipe gestures, focus management, and keyboard accessibility.
 - Keep shop delivery policies in the browser-safe shop-details module and derive benefit details from them; this keeps customer-facing rules consistent and testable.
 - Show the supplied location using a standard Google Maps iframe plus the original directions link; this requires no JavaScript map service or private API credentials.
