@@ -16,3 +16,7 @@
 - [x] Support selecting unpriced products without inventing prices.
 - [x] Price every product (real sourced prices; no more "Sipas kërkesës").
 - [x] Test category sizes and verify shopping interactions on desktop and phone.
+
+# Purchase notifications
+- [ ] Add order submission and owner email notifications after the sender domain is configured (blocked: sender-domain setup).
+- [x] Suggest useful next improvements for the shop.
