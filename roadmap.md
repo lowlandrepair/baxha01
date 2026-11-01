@@ -11,7 +11,8 @@
 - [x] Test delivery rules and verify the page and category flows.
 
 # Expanded catalog
-- [ ] Add 12 products per category using real sourced photos.
-- [ ] Add manageable browsing and reliable filters for the larger collection.
-- [ ] Support selecting unpriced products without inventing prices.
-- [ ] Test category sizes and verify shopping interactions on desktop and phone.
+- [x] Add 12 products per category using real sourced photos.
+- [x] Add manageable browsing and reliable filters for the larger collection.
+- [x] Support selecting unpriced products without inventing prices.
+- [x] Price every product (real sourced prices; no more "Sipas kërkesës").
+- [x] Test category sizes and verify shopping interactions on desktop and phone.
