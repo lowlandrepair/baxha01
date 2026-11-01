@@ -21,8 +21,17 @@ describe("Checkout requirements", () => {
     expect(result.items).toHaveLength(2); expect(result.subtotal).toBe(66500); expect(result.total).toBe(66750);
   });
   it("accepts every priced catalog product", () => {
-    const result = priceOrder(orderSchema.parse({ ...input, items: products.map((p) => ({ id: p.id, quantity: 1 })) }));
-    expect(result.items).toHaveLength(72);
+    const priced = products.filter((p) => p.price !== null);
+    const result = priceOrder(orderSchema.parse({ ...input, items: priced.map((p) => ({ id: p.id, quantity: 1 })) }));
+    expect(result.items).toHaveLength(priced.length);
+  });
+  it("requires a quote for products without a price", () => {
+    const product = products[0]!;
+    const price = product.price;
+    try {
+      product.price = null;
+      expect(() => priceOrder({ ...input, items: [{ id: product.id, quantity: 1 }] })).toThrow();
+    } finally { product.price = price; }
   });
   it("rejects unknown and duplicate parts", () => {
     expect(() => priceOrder({ ...input, items: [{ id: -1, quantity: 1 }] })).toThrow();

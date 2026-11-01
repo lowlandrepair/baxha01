@@ -8,6 +8,13 @@
       "when": 1793562411222,
       "tag": "0000_create_shop_orders",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793562411223,
+      "tag": "0001_order_email",
+      "breakpoints": true
     }
   ]
 }

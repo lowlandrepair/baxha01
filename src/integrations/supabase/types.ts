@@ -20,6 +20,9 @@ export type Database = {
           car_details: string
           city: string
           country: string
+          email_status: string
+          email_attempted_at: string | null
+          email_sent_at: string | null
           created_at: string
           customer_name: string
           id: string
@@ -36,6 +39,9 @@ export type Database = {
           car_details?: string
           city: string
           country: string
+          email_status?: string
+          email_attempted_at?: string | null
+          email_sent_at?: string | null
           created_at?: string
           customer_name: string
           id: string
@@ -52,6 +58,9 @@ export type Database = {
           car_details?: string
           city?: string
           country?: string
+          email_status?: string
+          email_attempted_at?: string | null
+          email_sent_at?: string | null
           created_at?: string
           customer_name?: string
           id?: string
