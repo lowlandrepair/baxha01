@@ -1,6 +1,7 @@
 import type { Tables } from "@/integrations/supabase/types";
 import { shopDetails } from "./shop-details";
 import { eur } from "./catalog";
+import { emailRuntimeEnv } from "./runtime-env.server";
 
 export type StoredOrder = Tables<"shop_orders">;
 export type OrderLine = { id: number; title: string; quantity: number; unit_cents: number };
@@ -28,11 +29,13 @@ export function orderEmailParams(order: StoredOrder) {
 }
 
 export async function sendOrderEmail(order: StoredOrder) {
-  const service = process.env["EMAILJS_SERVICE_ID"]?.trim();
-  const template = process.env["EMAILJS_TEMPLATE_ID"]?.trim();
-  const publicKey = process.env["EMAILJS_PUBLIC_KEY"]?.trim();
-  const privateKey = process.env["EMAILJS_PRIVATE_KEY"]?.trim();
-  if (!service || !template || !publicKey) throw new Error("EmailJS configuration is missing.");
+  const env = await emailRuntimeEnv();
+  const service = env["EMAILJS_SERVICE_ID"]?.trim();
+  const template = env["EMAILJS_TEMPLATE_ID"]?.trim();
+  const publicKey = env["EMAILJS_PUBLIC_KEY"]?.trim();
+  const privateKey = env["EMAILJS_PRIVATE_KEY"]?.trim();
+  const missing = [!service && "EMAILJS_SERVICE_ID", !template && "EMAILJS_TEMPLATE_ID", !publicKey && "EMAILJS_PUBLIC_KEY"].filter(Boolean);
+  if (missing.length) throw new Error(`EmailJS configuration is missing: ${missing.join(", ")}.`);
 
   const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
     method: "POST",
