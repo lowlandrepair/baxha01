@@ -26,6 +26,6 @@ describe("Checkout requirements", () => {
   });
   it("rejects unknown and duplicate parts", () => {
     expect(() => priceOrder({ ...input, items: [{ id: -1, quantity: 1 }] })).toThrow();
-    expect(() => priceOrder({ ...input, items: [input.items[0], input.items[0]] })).toThrow();
+    expect(() => priceOrder({ ...input, items: [{ id: 9, quantity: 2 }, { id: 9, quantity: 2 }] })).toThrow();
   });
 });
