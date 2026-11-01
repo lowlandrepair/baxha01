@@ -29,7 +29,7 @@ function Checkout() {
   const [id, setId] = useState("");
   const [receipt, setReceipt] = useState<{ id: string; total: number; message: string } | null>(null);
   const lines = products.filter((p) => cart[p.id]);
-  const subtotal = lines.reduce((sum, p) => sum + (p.price ?? 0) * cart[p.id], 0);
+  const subtotal = lines.reduce((sum, p) => sum + (p.price ?? 0) * (cart[p.id] ?? 0), 0);
   const shipping = shopDetails.shipping[fields.country];
   async function placeOrder(e: React.FormEvent) {
     e.preventDefault();
