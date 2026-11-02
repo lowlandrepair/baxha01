@@ -26,6 +26,12 @@ basket, ask about parts on WhatsApp, and place a cash-on-delivery order.
 - **WhatsApp Integration** → [src/components/storefront/whatsapp-enquiry.tsx](src/components/storefront/whatsapp-enquiry.tsx)
 - **All UI Components** → [src/components/ui/](src/components/ui/) (buttons, dialogs, sheets, etc.)
 - **Styles & Theme** → [src/styles.css](src/styles.css)
+- **Root Layout & Providers** → [src/routes/__root.tsx](src/routes/__root.tsx)
+- **Router Setup** → [src/router.tsx](src/router.tsx)
+- **Server Entry** → [src/server.ts](src/server.ts)
+- **Shop Details** → [src/lib/shop-details.ts](src/lib/shop-details.ts)
+- **Order Schema** → [src/lib/order-schema.ts](src/lib/order-schema.ts)
+- **Database Migrations** → [drizzle/migrations/](drizzle/migrations/)
 
 ---
 
