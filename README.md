@@ -220,126 +220,85 @@ tools generate `routeTree.gen.ts`; do not edit it by hand. See
 | Email content                                | `orderEmailParams()` in [order-email.server.ts](src/lib/order-email.server.ts) and the saved EmailJS template.                                       |
 | Browser title and page description           | The route's `head()` configuration in `index.tsx` or `checkout.tsx`.                                                                                 |
 
-Images can be normal imports or `.asset.json` metadata whose `.url` points to the
-image. Check that URL when changing an image; renaming metadata alone does not
-replace the remote asset.
 
-## Technologies used
 
-| Technology                | Role                                                                       |
-| ------------------------- | -------------------------------------------------------------------------- |
-| React + TypeScript        | Components, state, hooks, and typed data.                                  |
-| TanStack Start + Router   | Routes, server rendering, and checkout server functions.                   |
-| Tailwind CSS              | Styling utilities, responsive layouts, and theme tokens.                   |
-| Radix-based UI components | Accessible dialogs and drawers through `src/components/ui/`.               |
-| Embla Carousel            | Swipeable hero and featured-product carousels.                             |
-| Lucide React              | Icons such as search, basket, menu, and delivery.                          |
-| Zod                       | Customer and order-input validation.                                       |
-| Supabase / PostgreSQL     | Persistent private order storage.                                          |
-| EmailJS                   | Owner notifications through the connected sender.                          |
-| Vitest + Testing Library  | Logic and checkout UI tests.                                               |
-| Vite + Nitro              | Development and production builds using the Lovable configuration wrapper. |
+# autoprojoni — Car Parts & Accessories Store
 
-## Run locally
+An Albanian-language storefront for car parts and styling accessories in Vushtrri,
+Kosovë. Customers can browse products, search and filter the catalog, manage a
+basket, ask about parts on WhatsApp, and place a cash-on-delivery order.
 
-Use Node.js compatible with the installed dependencies; local work on this project
-has used Node.js 24.
+**Live website:** [baxha01.lovable.app](https://baxha01.lovable.app)
 
-```sh
-git clone https://github.com/lowlandrepair/baxha01.git
-cd baxha01
-npm install
-npm run dev
-```
+**Project editor:** [Lovable](https://lovable.dev/projects/d5b7a0d4-95e6-4211-99b9-b3277b1a93cb)
 
-Open the address printed by Vite. Browsing uses the local catalog; order submission
-also requires the backend configuration below.
+---
 
-| Command              | Purpose                                   |
-| -------------------- | ----------------------------------------- |
-| `npm run dev`        | Start the development server.             |
-| `npm run build`      | Build the browser and server app.         |
-| `npm run preview`    | Preview a production build.               |
-| `npm test`           | Run automated tests once.                 |
-| `npm run test:watch` | Rerun tests as files change.              |
-| `npx tsc --noEmit`   | Check TypeScript without producing files. |
-| `npm run lint`       | Check ESLint and formatting rules.        |
+## 📋 Quick Navigation
 
-## Configure checkout and order emails
+**For your professor: Jump directly to any component**
 
-Orders are validated and saved on the server before EmailJS is called. The owner
-recipient is fixed to **jondallku@gmail.com**. Payment is cash on delivery.
+- **Homepage & Layout** → [src/routes/index.tsx](src/routes/index.tsx) (main page)
+- **Hero Slider/Carousel** → [src/components/storefront/hero-carousel.tsx](src/components/storefront/hero-carousel.tsx)
+- **Product Cards** → [src/components/storefront/product-card.tsx](src/components/storefront/product-card.tsx)
+- **Footer & Shop Info** → [src/components/storefront/shop-info.tsx](src/components/storefront/shop-info.tsx)
+- **Product Catalog Data** → [src/lib/catalog.ts](src/lib/catalog.ts)
+- **Shopping Cart Logic** → [src/components/storefront/cart-provider.tsx](src/components/storefront/cart-provider.tsx)
+- **Checkout Page** → [src/routes/checkout.tsx](src/routes/checkout.tsx)
+- **Search & Filtering** → [src/lib/catalog-browsing.ts](src/lib/catalog-browsing.ts)
+- **Generic Carousel UI** → [src/components/ui/carousel.tsx](src/components/ui/carousel.tsx)
+- **WhatsApp Integration** → [src/components/storefront/whatsapp-enquiry.tsx](src/components/storefront/whatsapp-enquiry.tsx)
+- **All UI Components** → [src/components/ui/](src/components/ui/) (buttons, dialogs, sheets, etc.)
+- **Styles & Theme** → [src/styles.css](src/styles.css)
 
-1. For a fresh database, apply [0000_create_shop_orders.sql](drizzle/migrations/0000_create_shop_orders.sql)
-   and then [0001_order_email.sql](drizzle/migrations/0001_order_email.sql).
-   Existing databases with these changes do not need them rerun. RLS prevents
-   public access to customer records.
-2. Copy the empty settings in [.env.example](.env.example) into `.env.local` for
-   local development and fill them in. Set the corresponding deployed server
-   secrets too. `SUPABASE_SERVICE_ROLE_KEY` must belong to the same project as
-   `SUPABASE_URL`. Never prefix private secrets with `VITE_`.
-3. In EmailJS, connect an email service and create an order notification template.
-   Set **To Email** to the literal `jondallku@gmail.com`, **Subject** to
-   `{{subject}}`, and the body to `{{message}}` (or `<pre>{{message}}</pre>` in the
-   HTML editor). Keep normal escaped double-brace variables. Use the connected
-   service's default sender; the customer supplies a phone number, not an email.
-4. Enable requests from non-browser applications in EmailJS **Account → Security**
-   and keep private-key protection enabled. Set `EMAILJS_SERVICE_ID`,
-   `EMAILJS_TEMPLATE_ID`, `EMAILJS_PUBLIC_KEY`, and `EMAILJS_PRIVATE_KEY` in the
-   server configuration. Restart local development after changing settings;
-   publish the changes in Lovable to update the live site.
-5. Place a small test order and check both `shop_orders` and the Gmail inbox/spam
-   folder. The checkout receipt distinguishes a saved order from an email accepted
-   by EmailJS. The retry button reuses the same order ID without inserting another
-   order. Notification states are `pending`, `sending`, `sent`, and `failed`.
+---
 
-The template also receives `order_id`, `customer_name`, `customer_phone`, `address`,
-`city`, `country`, `car`, `items`, `subtotal`, `shipping`, `total`, and `payment_method`.
-All prices and totals come from the server catalog. Products without prices stay
-in the basket for a separate WhatsApp quote.
+## 🚀 Start here: where is the homepage code?
 
-The live site's secrets are separate from a local clone or remix. `.env` is
-already tracked here and contains public Supabase configuration; never add private
-keys or account passwords to it. Use `.env.local` locally and hosting secrets for
-deployment. `VITE_` variables are browser-facing.
+Open **[src/routes/index.tsx](src/routes/index.tsx)** first. It defines the `/`
+route and the `Index()` React component, which assembles the homepage in the same
+order that its sections appear on screen.
 
-### Troubleshooting
+**The navbar is directly inside this file's `<header>` and `<nav>` tags.** There
+is no separate `Navbar.tsx` file. The footer, product quick-view dialog, basket
+drawer, and mobile menu are also defined inside `Index()`.
 
-| Symptom                                       | What to check                                                                  |
-| --------------------------------------------- | ------------------------------------------------------------------------------ |
-| Saved order, unconfirmed email                | Server logs and EmailJS history; retry from the saved receipt.                 |
-| `EmailJS configuration is missing`            | Server secret names, publication of the settings, and `runtime-env.server.ts`. |
-| `Invalid grant` or Gmail connection errors    | Reconnect the sender in EmailJS, save the service, and test again.             |
-| EmailJS shows `OK`, but no message is visible | Template recipient and the recipient's Spam folder.                            |
-| Missing values in an email                    | Template variable names must match the parameters listed above.                |
+Reusable sections are imported from
+[`src/components/storefront/`](src/components/storefront). For example,
+`<HeroCarousel />` inserts the component defined in `hero-carousel.tsx`.
 
-## Tests and practical limits
+Use your editor's **Find** command to search for the markers below. Markers are
+more reliable than memorizing line numbers, which change when code is edited.
 
-[`src/test/`](src/test) covers routing, catalog behavior, shop policies, validation,
-pricing, submission IDs, checkout UI, order persistence, email payloads, and runtime
-settings. Service calls in automated tests are mocked; a live send is a separate
-verification step.
+### Homepage map: top to bottom
 
-Payment is **cash on delivery**, with no online card charge. The catalog is defined
-in source code, not a live stock-management system; a displayed stock label is not
-a real-time supplier inventory check. Products without a price are quote requests
-and remain outside the priced checkout total.
+In this table, **Home** means [src/routes/index.tsx](src/routes/index.tsx).
+The Albanian labels are the text visible on the website.
 
-Email failures preserve the order and can be retried from the receipt. There is no
-background email worker: monitor failed/pending orders in Supabase if a customer
-leaves before retrying. Concurrent sends for one order are locked for two minutes.
-EmailJS has no send idempotency key; a worker interruption after sending but before
-recording delivery can cause a duplicate email on retry, but never a duplicate order.
+| Website section                            | Code location                                                          | Search for / what it does                                                                   |
+| ------------------------------------------ | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| **Top delivery bar**                       | Home, before `<header>`                                                | `Kosovë 2.5€` — delivery text and contact-section link.                                     |
+| **Sticky header (logo, search, cart)**     | Home                                                                   | `<header` — logo, search form, basket count, and subtotal.                                  |
+| **Category navigation bar**                | Home                                                                   | `Kategoritë kryesore` — `<nav>` renders buttons from `categories`.                          |
+| **Mobile hamburger button**                | Home                                                                   | `Hap menunë` — calls `setMobile(true)`.                                                     |
+| **🎠 Hero image slider**                   | [hero-carousel.tsx](src/components/storefront/hero-carousel.tsx)       | `HeroCarousel` and `slides` — photos, text, category buttons, arrows, dots, and pause/play. |
+| **Three highlights (delivery, cars, styling)** | Home                                                                   | `Dërgesa në Kosovë` — delivery, car models, and styling highlights.                         |
+| **"Eksploro kategoritë" category tiles**   | Home                                                                   | `category-title` — category images, names, and product counts.                              |
+| **"Pjesët në fokus" featured carousel**     | Home                                                                   | `featured-title` — a `Carousel` containing `ProductCard` components.                        |
+| **📦 Product card component**              | [product-card.tsx](src/components/storefront/product-card.tsx)         | `ProductCard` — reusable layout for featured and collection products.                       |
+| **Two promotional banners**                | Home                                                                   | `Koleksionet styling` — styling and accessories banners.                                    |
+| **"Pjesë & aksesorë" product grid**        | Home                                                                   | `id="produktet"` — controls, product grid, and empty-results message.                       |
+| **Search, brand, category, sorting**       | Home + [catalog-browsing.ts](src/lib/catalog-browsing.ts)              | `Kërko në koleksion`, `Marka e veturës`, `Rendit produktet`, and `filterProducts`.          |
+| **📄 Pagination controls**                 | Home + [catalog-browsing.ts](src/lib/catalog-browsing.ts)              | `Faqet e produkteve`, `turnPage`, and `PAGE_SIZE`.                                          |
+| **Clickable car-brand names**              | Home                                                                   | `PËR MARKËN TUAJ` — sets the brand filter and scrolls to the collection.                    |
+| **"Pse të bleni online" benefits**         | [shop-info.tsx](src/components/storefront/shop-info.tsx)               | `ShoppingBenefits` — delivery, quality, and support information.                            |
+| **📍 Footer and contact details**          | Home                                                                   | `<footer id="kontakt"` — logo, WhatsApp, category links, delivery text, and copyright.      |
+| **Google Maps iframe**                     | [shop-info.tsx](src/components/storefront/shop-info.tsx)               | `ShopMap` — Maps iframe and directions link.                                                |
+| **Product quick-view popup**               | Home                                                                   | `<Dialog open={Boolean(quick)}` — selected product details and enquiry controls.            |
+| **🛒 Basket drawer**                       | Home                                                                   | `<Sheet open={open}` — plus/minus/remove, subtotal, and checkout link.                      |
+| **Mobile category menu**                   | Home                                                                   | `<Sheet open={mobile}` — the left-side category drawer.                                     |
+| **💬 WhatsApp enquiry button**             | [whatsapp-enquiry.tsx](src/components/storefront/whatsapp-enquiry.tsx) | `WhatsAppEnquiry` — car-details field and encoded `wa.me` link.                             |
 
-EmailJS references: [REST send API](https://www.emailjs.com/docs/rest-api/send/)
-and [server API access](https://github.com/emailjs-com/emailjs-nodejs#readme).
+---
 
-## Project origin and Git workflow
-
-The project began in Lovable with a visual brief referencing
-[Autodekor Buli](https://autodekorbuli.com/) and has been customized in this
-repository. The file map above explains this implementation's structure.
-
-GitHub pushes sync to the connected Lovable editor; publishing updates the live
-website. Keep the connected branch working. Avoid force pushes or rewriting
-commits already pushed, because that can disrupt Lovable's project history.
+### 🧩 Component Hierarchy Diagram
